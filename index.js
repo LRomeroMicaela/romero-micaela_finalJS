@@ -4,14 +4,16 @@ console.log(arrayProductos);
 lentesDisponibles = JSON.parse(localStorage.getItem("lentesDisponibles")) || [];
 console.log (lentesDisponibles);
 
-//clear();
+//API del tiempo
+tiempoAPI();
+
 //funcion que inicia para borrar todo lo almacenado desde un ppio
 function clear(){
       const eliminarlentes = localStorage.removeItem(`lentes`);
       const eliminarArrayProd = localStorage.removeItem(`lentesDisponibles`);
 }
-armadoCard();
 
+armadoCard();
 //funcion para armar las card por JS
 function armadoCard() {
 	for (let armazon of lentesDisponibles) {
@@ -25,7 +27,7 @@ function armadoCard() {
               <h6 class="card-txt price">${armazon.precio}</h6>
               </div>
               <a id="btn-add" data-id='${armazon.id}' href="#" class="btn btn-primary subm1">Agregar al carrito</a>
-        </div>`;
+            </div>`;
 		document.getElementById("container-productos").append(card);
 		card.className = "card col-10 col-md-3 img-cat main-img";
 	}
@@ -58,22 +60,39 @@ function mensaje(){
       })
 }
 
-// function tiempoAPI(){
-//       const tiempo="https://api.tutiempo.net/json/?lan=es&apid=zxYaq444zq473p3&lid=42833";
-//       fetch(tiempo)
-//           .then( respuesta => respuesta.json())
-//           .then( data => {
-//               //const likes = cotizaciones.blue;
-//               console.log(data);
-//               document.getElementById("tiempo").innerHTML+=`
-//               <div id="TT_FiNE1kkE1nncMesK7AVzDjjDzWuKM4SFrYEd1ciIKEjoG535m">El tiempo - Tutiempo.net</div>
-//               `;
+// funcion que trae un API con el clima
+function tiempoAPI(){
+      const tiempo="https://api.openweathermap.org/data/2.5/weather?lat=-34.61315&lon=-58.4370894&appid=d05820224a9b59af39854d2b614d913d";
+      fetch(tiempo)
+          .then( respuesta => respuesta.json())
+          .then( data => {
+              console.log(data);
+              const {name, main:{temp, temp_min, temp_max}, weather:[arr] } = data;
+              console.log(name);
+              console.log(temp);
+              console.log(temp_max);
+              console.log(temp_min);
+              console.log(arr.icon);
               
-//           })
-//           //catch del fetch
-//           .catch(error => console.log("error"))
-//   }
+              const grados = kelvinACentigrados(temp);
+              const gradosMin = kelvinACentigrados(temp_min);
+              const gradosMax = kelvinACentigrados(temp_max);
+
+              document.getElementById("tiempo").innerHTML+=`
+              <div><p> Ciudad: ${name} </p></div>
+              <div><p> Temperatura: ${grados} °C </p></div>
+              <div><p> T° máxima: ${gradosMax} °C </p></div>
+              <div><p> T° mínima: ${gradosMin} °C </p></div>
+              <div><img src="https://openweathermap.org/img/wn/${arr.icon}@2x.png" alt="icon"></img></div>
+
+              `;
+              
+         })
+   }
   
+   function kelvinACentigrados(temp){
+      return parseInt(temp - 273.15);
+   }
 
 // // funcion que trae la card y extraigo los items de la card que me sirven. Llamo a otra funcion para armar el carrito
 // //guarda en el localStorage el prod seleccionado para pasarlo luego a la hoja carrito
@@ -138,4 +157,4 @@ function mensaje(){
 //             this.stock = stockDispo;
 //         }
 //     }
-// }
+ //     }

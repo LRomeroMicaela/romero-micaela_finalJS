@@ -1,15 +1,8 @@
 //saco del localStorage el item seleccionado por el usuario
-let almacenados = JSON.parse(localStorage.getItem("lentes"));
-let seleccionadoIdStock = JSON.parse(localStorage.getItem("stockId"));
-//const carrito = [] ;
-//console.log (carrito);
-// const carritoStockId = [];
-// console.log(carritoStockId);
-
 let carrito = JSON.parse(localStorage.getItem("lentes")) || [];
 const select = document.getElementById("cantidadAComprar");
-const boton = document.getElementById("hacerPedido");
-let divConImg = ``;
+//const boton = document.getElementById("hacerPedido");
+
 
 const renderizarProductos = () => {
 	const contenedor = document.getElementById("artElegido");
@@ -22,14 +15,14 @@ const renderizarProductos = () => {
 		divConImg = document.createElement("div")
 			divConImg.innerHTML = `
 				<div class="seleccionado">
-					<div class="seleccionado-img col-10"><img width="100%" src=${producto.img} alt="producto elegido"></div>
-					<div class="seleccionado-description col-10"><p>Descripción del producto seleccionado: ${producto.nombre} , ${producto.marca}</p></div>
-					<div class="seleccionado-material col-10"><p>Precio por unidad: $ ${producto.precio}</p></div>
+					<div class="txt-login col-10"><p>Descripción del producto seleccionado: ${producto.nombre} , ${producto.marca}</p></div>
+					<div class="txt-login col-10"><p>Precio por unidad: $ ${producto.precio}</p></div>
 				</div>
 			`
 			document.getElementById("artElegido").append(divConImg);
 	});
 };
+
 
 renderizarProductos();
 
@@ -43,15 +36,54 @@ cantidadAComprar.addEventListener("click", (e) => {
 			(armazon) => armazon.id === parseInt(id),
 		);
 		armazon.stock -= valor;
+		if (valor === 1){
+            Swal.fire (`El valor a abonar es de $ ` + armazon.precio);
+        } else if(valor === 2){
+            let priceTotal = armazon.precio * 2;
+			Swal.fire (`El valor a abonar es de $ ` + priceTotal);
+        } else if (valor === 3){
+            let priceTotal2 = armazon.precio * 3;
+			Swal.fire (`El valor a abonar es de $ ` + priceTotal2);
+        };
 	});
 	localStorage.setItem("lentesDisponibles", JSON.stringify(productosGuardados));
-	console.log(productosGuardados);
 });
 
+
+const finalizar = document.getElementById(`boton-finish`)
+finalizar.addEventListener(`click`, (e) => {
+	e.preventDefault();
+//validación formulario de compra
+const nombre = document.getElementById("user");
+const ncredit = document.getElementById("ncredit");
+const code = document.getElementById("code");
+const adress = document.getElementById("adress");
+const localidad = document.getElementById("localidad");
+const province = document.getElementById("province");
+const email = document.getElementById("email");
+const tel = document.getElementById("tel");
+const form = document.getElementById("form");
+
+validarTarjeta(ncredit);
+validarName(nombre);
+
+
+});
+function validarTarjeta(credit){
+	if(credit.value.length != 16) {
+		swal.fire(`Nombre y apellido introducidos son incorrectos, vuelva a intentarlo.`);
+	}
+}
+
+function validarName(aValidar){
+if(aValidar.value.length < 8){
+	swal.fire(`Nombre y apellido introducidos son incorrectos, vuelva a intentarlo.`);
+}
+}
 let clearCarrito = document.getElementById(`boton-close`);
     clearCarrito.addEventListener(`click`, clearHTML);
-let finalizarCompraVaciado = document.getElementById(`boton-finish`);
-	finalizarCompraVaciado.addEventListener(`click`, clearHTML);
+// let finalizarCompraVaciado = document.getElementById(`boton-finish`);
+// 	finalizarCompraVaciado.addEventListener(`click`, finalizacionCompra);
 
 function clearHTML(){
     const eliminarlentes = localStorage.removeItem(`lentes`);
@@ -63,6 +95,28 @@ function clearHTML(){
 function mensajeVaciadoCarrito(){
 	Swal.fire('¡Operación realizada con éxito!');
 }
+
+// function finalizacionCompra(){
+// 	Swal.fire({
+// 		position: 'top-end',
+// 		icon: 'success',
+// 		title: '¡Gracias por su compra!',
+// 		showConfirmButton: false,
+// 		timer: 5500
+// 	})
+// 	const eliminarlentes = localStorage.removeItem(`lentes`);
+// 	const eliminarArrayProd = localStorage.removeItem(`lentesDisponibles`);
+//     divConImg.innerHTML = ``; 
+// 	carrito = []; 
+		
+// }
+
+
+
+
+
+
+
 //funcion para extraer los item del array almacenados
 // function extraerProdSeleccinado() {
 //     if (almacenados != null){

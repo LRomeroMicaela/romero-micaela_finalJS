@@ -4,6 +4,10 @@
   align-items: center;
 }
 
+.clima{
+  display:inline-block;
+}
+
 .titulo {
   font-family: "Ubuntu Condensed", sans-serif;
   font-weight: 600;
