@@ -2,7 +2,7 @@
 let carrito = JSON.parse(localStorage.getItem("lentes")) || [];
 const select = document.getElementById("cantidadAComprar");
 //const boton = document.getElementById("hacerPedido");
-
+let divConImg = ``;
 
 const renderizarProductos = () => {
 	const contenedor = document.getElementById("artElegido");
@@ -37,19 +37,19 @@ cantidadAComprar.addEventListener("click", (e) => {
 		);
 		armazon.stock -= valor;
 		if (valor === 1){
-            Swal.fire (`El valor a abonar es de $ ` + armazon.precio);
+            Swal.fire (`El total a abonar es de $ ` + armazon.precio);
         } else if(valor === 2){
             let priceTotal = armazon.precio * 2;
-			Swal.fire (`El valor a abonar es de $ ` + priceTotal);
+			Swal.fire (`El total a abonar es de $ ` + priceTotal);
         } else if (valor === 3){
             let priceTotal2 = armazon.precio * 3;
-			Swal.fire (`El valor a abonar es de $ ` + priceTotal2);
+			Swal.fire (`El total a abonar es de $ ` + priceTotal2);
         };
 	});
 	localStorage.setItem("lentesDisponibles", JSON.stringify(productosGuardados));
 });
 
-
+//toma boton enviar para validar el formulario
 const finalizar = document.getElementById(`boton-finish`)
 finalizar.addEventListener(`click`, (e) => {
 	e.preventDefault();
@@ -62,28 +62,55 @@ const localidad = document.getElementById("localidad");
 const province = document.getElementById("province");
 const email = document.getElementById("email");
 const tel = document.getElementById("tel");
-const form = document.getElementById("form");
 
 validarTarjeta(ncredit);
 validarName(nombre);
+validarName(adress);
+validarName(localidad);
+validarName(province);
+validarTelefono(tel);
+validarName(email);
+validarCodSeg(code);
 
 
 });
-function validarTarjeta(credit){
-	if(credit.value.length != 16) {
-		swal.fire(`Nombre y apellido introducidos son incorrectos, vuelva a intentarlo.`);
+
+//cada una de estas funciones valida el formulario
+function validarCodSeg(code){
+	if(code.value.length !=3) {
+		code.style.border= "2px solid red";
+	}else {
+		code.style.border = "inherit";
 	}
 }
-
+function validarTelefono(telef){
+	if(telef.value.length != 10) {
+		telef.style.border= "2px solid red";
+	}else {
+		telef.style.border = "inherit";
+	}
+}
+function validarTarjeta(credit){
+	if(credit.value.length != 16) {
+		credit.style.border= "2px solid red";
+	}else {
+		credit.style.border = "inherit";
+	}
+}
 function validarName(aValidar){
-if(aValidar.value.length < 8){
-	swal.fire(`Nombre y apellido introducidos son incorrectos, vuelva a intentarlo.`);
+if(aValidar.value.length < 6){
+	aValidar.style.border = "2px solid red";
+}else {
+	aValidar.style.border = "inherit";
 }
 }
+
+
+//funcion para vaciar carrito y local Storage
 let clearCarrito = document.getElementById(`boton-close`);
     clearCarrito.addEventListener(`click`, clearHTML);
-// let finalizarCompraVaciado = document.getElementById(`boton-finish`);
-// 	finalizarCompraVaciado.addEventListener(`click`, finalizacionCompra);
+let finalizarCompraVaciado = document.getElementById(`finalizar`);
+	finalizarCompraVaciado.addEventListener(`click`, finalizacionCompra);
 
 function clearHTML(){
     const eliminarlentes = localStorage.removeItem(`lentes`);
@@ -96,20 +123,27 @@ function mensajeVaciadoCarrito(){
 	Swal.fire('¡Operación realizada con éxito!');
 }
 
-// function finalizacionCompra(){
-// 	Swal.fire({
-// 		position: 'top-end',
-// 		icon: 'success',
-// 		title: '¡Gracias por su compra!',
-// 		showConfirmButton: false,
-// 		timer: 5500
-// 	})
-// 	const eliminarlentes = localStorage.removeItem(`lentes`);
-// 	const eliminarArrayProd = localStorage.removeItem(`lentesDisponibles`);
-//     divConImg.innerHTML = ``; 
-// 	carrito = []; 
-		
-// }
+function finalizacionCompra(){
+	if (carrito != ``){
+	Swal.fire({
+		icon: 'success',
+		title: '¡Gracias por su compra!',
+		showConfirmButton: false,
+		timer: 2500
+	})
+	const eliminarlentes = localStorage.removeItem(`lentes`);
+	const eliminarArrayProd = localStorage.removeItem(`lentesDisponibles`);
+    divConImg.innerHTML = ``; 
+	carrito = []; 
+} else{
+	Swal.fire({
+		icon: 'error',
+		title: 'El carrito se encuentra vacío, seleccione un producto',
+		showConfirmButton: false,
+		timer: 2500
+	})
+}	
+}
 
 
 

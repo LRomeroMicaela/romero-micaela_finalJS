@@ -55,8 +55,9 @@ function mensaje(){
             position: 'top-end',
             icon: 'success',
             title: 'Producto añadido al carrito correctamente',
+            text: 'Diríjase a carrito para finalizar la compra',
             showConfirmButton: false,
-            timer: 1500
+            timer: 2500
       })
 }
 

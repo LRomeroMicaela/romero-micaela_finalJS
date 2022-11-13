@@ -114,7 +114,7 @@
             <input type="text" class="form-control caja" id="user" value="" required>
           </div>
           <div class="col-md-8 col-10">
-            <label class="form-label">Código de Seguridad</label>
+            <label class="form-label">Código de Seguridad (3 dígitos)</label>
             <input type="text" class="form-control caja" id="code" value="" required>
           </div>
           <p><b> Datos para el envío y facturación</b></p>
@@ -135,7 +135,7 @@
             <input type="email" class="form-control caja" id="email" value="" required >
           </div>
           <div class="col-md-8 col-10">
-            <label  class="form-label">Teléfono</label>
+            <label  class="form-label">Teléfono (sin el 0 y el 15)</label>
             <input type="text" class="form-control caja" id="tel" value="" required >
           </div>
         </section>
@@ -144,11 +144,15 @@
             </div>
             <div class="formulary txt-login">
               <button id="boton-close" type="button" class="btn-close" aria-label="Close"></button>
-              <p>Eliminar producto del carrito.</p>
+              <p>Eliminar producto del carrito</p>
             </div>
+            
             <div class="thank formulary txt-login">
               <p><b> ¡Muchas Gracias por habernos elegido!</b></p>
-            </div>    
+            </div> 
+            <div class="thank formulary">
+              <button type="button" id = "finalizar"class="btn btn-primary txt-login">Finalizar compra</button>
+            </div>   
         </form>
         
     </main>
